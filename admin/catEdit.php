@@ -1,29 +1,39 @@
-﻿<?php require '../classes/AdminLogin.php'; ?>
+<?php require '../classes/AdminLogin.php'; ?>
 <?php include '../classes/Category.php'; ?>
 <?php include 'inc/header.php'; ?>
 <?php include 'inc/sidebar.php';
 
 $cat = new Category();
 
+if( ! isset( $_GET['id']) || NULL == $_GET['id'] ){
+    echo '<script> window.location = "catlist.php" ';
+}else{
+    $id = $_GET['id'];
+}
+
 if( isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
     $name = $_POST['name'];
-    $insert_cat = $cat->insert( $name );
+    $insert_cat = $cat->update( $name, $id );
 }
 ?>
 <div class="grid_10">
     <div class="box round first grid">
-        <h2>Add New Category</h2>
+        <h2>Edit Category</h2>
         <div class="block copyblock">
             <?php 
             if( isset( $insert_cat ) ) {
                 echo $insert_cat;
             }
-            ?>
+
+            $category = $cat->get_cat_by_id( $id ); 
+
+            if( $category ):
+                while( $result = $category->fetch_assoc() ): ?>
             <form action="" method="POST">
                 <table class="form">
                     <tr>
                         <td>
-                            <input name="name" value="" type="text" placeholder="Enter Category Name..." class="medium" />
+                            <input name="name" value="<?php echo $result['name']; ?>" type="text" class="medium" />
                         </td>
                     </tr>
                     <tr>
@@ -33,6 +43,7 @@ if( isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
                     </tr>
                 </table>
             </form>
+            <?php endwhile; endif; ?>
         </div>
     </div>
 </div>

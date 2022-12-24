@@ -1,8 +1,22 @@
-﻿<?php include 'inc/header.php';?>
-<?php include 'inc/sidebar.php';?>
+﻿<?php include '../classes/Category.php'; ?>
+<?php include 'inc/header.php'; ?>
+<?php include 'inc/sidebar.php';
+require '../classes/AdminLogin.php';
+
+$cat = new Category(); 
+if( isset( $_GET['delete'] ) ){
+    $id = $_GET['delete'];
+    $deleted = $cat->delete( $id );
+}
+?>
         <div class="grid_10">
             <div class="box round first grid">
                 <h2>Category List</h2>
+                <?php 
+                if( isset( $deleted ) ){
+                    echo $deleted;
+                }
+                ?>
                 <div class="block">        
                     <table class="data display datatable" id="example">
 					<thead>
@@ -13,46 +27,24 @@
 						</tr>
 					</thead>
 					<tbody>
+                        <?php 
+                        $categories = $cat->select(); ?>
+
+                        <?php 
+                        if( $categories ):
+                            $i = 0;
+                        while( $result = $categories->fetch_assoc() ):
+                            $i++;
+                        ?>
 						<tr class="odd gradeX">
-							<td>01</td>
-							<td>Internet</td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
+							<td><?php echo $i; ?></td>
+							<td><?php echo $result['name']; ?></td>
+							<td><a href="catEdit.php?id=<?php echo $result['id']; ?>">Edit</a> || <a onclick="return confirm('Are you sure to delete');" href="?delete=<?php echo $result['id']; ?>">Delete</a></td>
 						</tr>
-						<tr class="even gradeC">
-							<td>02</td>
-							<td>Explorer </td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="odd gradeX">
-							<td>03</td>
-							<td>Internet</td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="even gradeC">
-							<td>04</td>
-							<td>Explorer </td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-							<tr class="odd gradeX">
-							<td>05</td>
-							<td>Internet</td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="even gradeC">
-							<td>06</td>
-							<td>Explorer </td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="odd gradeX">
-							<td>07</td>
-							<td>Internet</td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="even gradeC">
-							<td>08</td>
-							<td>Explorer </td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
+                        <?php 
+                        endwhile;
+                    endif;
+                        ?>
 					</tbody>
 				</table>
                </div>

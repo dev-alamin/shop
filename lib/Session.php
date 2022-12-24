@@ -13,8 +13,7 @@ class Session
      *
      * @return void
      */
-    public static function init()
-    {
+    public static function init(){
         session_start();
     }
     /**
@@ -26,7 +25,7 @@ class Session
      */
     public static function set($key, $val)
     {
-        $_SESSION[ $key ] = $val;
+        $_SESSION[$key] = $val;
     }
 
     /**
@@ -38,13 +37,13 @@ class Session
     public static function get($key)
     {
 
-        if (isset($_SESSION[ $key ])) {
-            return $_SESSION[ $key ];
+        if (isset($_SESSION[$key])) {
+            return $_SESSION[$key];
         } else {
             return false;
         }
     }
-    
+
     /**
      * Check the sesssion if exists
      *
@@ -69,7 +68,8 @@ class Session
         self::init();
 
         if (self::get("adminlogin") == true) {
-          header('Location:dashboard.php');
+            //   header('Location:dashboard.php');
+            echo '<script> window.location("dashobaord.php");</script>';
         }
     }
 

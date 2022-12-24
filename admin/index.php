@@ -5,6 +5,14 @@
         <h2> Dashbord</h2>
         <div class="block">
             Welcome admin panel
+            <br>
+            <?php 
+            $num = 'Hello100';
+            $num = intval( $num );
+            echo '<pre>';
+            print_r( $num );
+            echo '</pre>';
+            ?>
         </div>
     </div>
 </div>
